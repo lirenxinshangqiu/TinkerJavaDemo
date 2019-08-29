@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply from: 'tinkerpatch.gradle'
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.offcn.tinkerjavademo"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 2
+        versionName "1.0.1"
+    }
+    buildTypes {
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.debug
+
+            proguardFiles 'proguardRules.pro', getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias 'mei'
+            keyPassword '123456'
+            storeFile rootProject.file("keystore/demo.keystore")
+            storePassword '123456'
+        }
+        release {
+            keyAlias 'mei'
+            keyPassword '123456'
+            storeFile rootProject.file("keystore/demo.keystore")
+            storePassword '123456'
+        }
+
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    annotationProcessor("com.tinkerpatch.tinker:tinker-android-anno:1.9.13.3") { changing = true }
+    compileOnly("com.tinkerpatch.tinker:tinker-android-anno:1.9.13.3") { changing = true }
+    implementation("com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.13.3") { changing = true }
+
+}
